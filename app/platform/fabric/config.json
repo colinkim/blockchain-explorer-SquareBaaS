@@ -3,10 +3,10 @@
     "network-1": {
       "version": "1.0",
       "clients": {
-        "client-1": {
-          "tlsEnable": true,
-          "organization": "Org1MSP",
-          "channel": "mychannel",
+        "client-blab": {
+          "tlsEnable": false,
+          "organization": "peer-org1",
+          "channel": "channel1",
           "credentialStore": {
             "path": "./tmp/credentialStore_Org1/credential",
             "cryptoStore": {
@@ -16,9 +16,17 @@
         }
       },
       "channels": {
-        "mychannel": {
+        "channel1": {
+          "orderers": [
+            "orderer1-15-164-36-2.org1.example.com"
+          ],
           "peers": {
-            "peer0.org1.example.com": {}
+            "peer1-13-125-61-129.peer-org1.example.com": {
+                "endorsingPeer": true,
+                "chaincodeQuery": true,
+                "ledgerQuery": true,
+                "eventSource": true
+            }
           },
           "connection": {
             "timeout": {
@@ -32,58 +40,85 @@
         }
       },
       "organizations": {
-        "Org1MSP": {
-          "mspid": "Org1MSP",
+        "peer-org1": {
+          "mspid": "Peer-org1MSP",
           "fullpath": false,
+          "peers": [
+            "peer1-13-125-61-129.peer-org1.example.com"
+          ],
+          "certificateAuthorities": [
+            "ca-peer-org1"
+          ],
           "adminPrivateKey": {
-            "path": "/fabric-path/fabric-samples/first-network/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/keystore"
+            "path": "/Users/kimcy/Documents/z-bass-auth/peer-org1-enterprise-certificate/admincerts"
           },
           "signedCert": {
-            "path": "/fabric-path/fabric-samples/first-network/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/signcerts"
+            "path": "/Users/kimcy/Documents/z-bass-auth/peer-org1-enterprise-certificate/keystore"
           }
         },
-        "Org2MSP": {
-          "mspid": "Org2MSP",
+        "org1": {
+          "mspid": "Org1MSP",
           "adminPrivateKey": {
-            "path": "/fabric-path/fabric-samples/first-network/crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/keystore"
-          }
-        },
-        "OrdererMSP": {
-          "mspid": "OrdererMSP",
-          "adminPrivateKey": {
-            "path": "/fabric-path/fabric-samples/first-network/crypto-config/ordererOrganizations/example.com/users/Admin@example.com/msp/keystore"
+            "path":
+              "/Users/kimcy/Documents/z-bass-auth/org1-enterprise-certificate/admincerts"
           }
         }
       },
       "peers": {
-        "peer0.org1.example.com": {
+        "peer1-13-125-61-129.peer-org1.example.com": {
           "tlsCACerts": {
-            "path": "/fabric-path/fabric-samples/first-network/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt"
+            "path":"/Users/kimcy/Documents/z-bass-auth/peer-tls.pem"
           },
-          "url": "grpcs://localhost:7051",
-          "eventUrl": "grpcs://localhost:7053",
+          "url": "grpc://13.125.61.129:7051",
+          "eventUrl": "grpc://13.125.61.129:7053",
           "grpcOptions": {
-            "ssl-target-name-override": "peer0.org1.example.com"
+            "ssl-target-name-override": "peer1-13-125-61-129.peer-org1.example.com"
           }
-        },
-        "peer1.org1.example.com": {
-          "url": "grpcs://localhost:8051"
-        },
-        "peer0.org2.example.com": {
-          "url": "grpcs://localhost:9051"
-        },
-        "peer1.org2.example.com": {
-          "url": "grpcs://localhost:10051"
         }
       },
       "orderers": {
-        "orderer.example.com": {
-          "url": "grpcs://localhost:7050"
+        "orderer1-15-164-36-2.org1.example.com": {
+          "tlsCACerts": {
+            "path":"/Users/kimcy/Documents/z-bass-auth/org1-tlscert.pem"
+          },
+          "url": "grpc://15.164.36.2:7050",
+          "grpcOptions": {
+            "ssl-target-name-override": "orderer1-15-164-36-2.org1.example.com"
+          }
         }
+      
+      },
+      "certificateAuthorities": {
+          "ca-peer-org1": {
+              "url": "http://13.125.75.24:7054",
+              "httpOptions": {
+                  "verify": false
+              },
+              "registrar": [
+                  {
+                      "enrollId": "admin",
+                      "enrollSecret": "adminpw"
+                  }
+              ],
+              "caName": "ca-peer-org1"
+          },
+          "ca-org1": {
+              "url": "http://15.164.36.2:7054",
+              "httpOptions": {
+                  "verify": false
+              },
+              "registrar": [
+                  {
+                      "enrollId": "admin",
+                      "enrollSecret": "adminpw"
+                  }
+              ],
+              "caName": "ca-org1"
+          }
       }
-    },
-    "network-2": {}
+
+    }
   },
-  "configtxgenToolPath": "/fabric-path/fabric-samples/bin",
+  "configtxgenToolPath": "fabric-path/fabric-samples/bin",
   "license": "Apache-2.0"
 }
