@@ -1,6 +1,6 @@
 {
-  "enroll-id": "hlbeuser",
-  "enroll-affiliation": ".department1",
+  "enroll-id": "admin",     //등록할 사용자 또는 등록된 사용자
+  "enroll-affiliation": "",    
   "admin-username": "admin",
   "admin-secret": "adminpw"
 }
