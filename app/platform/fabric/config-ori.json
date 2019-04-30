@@ -1,0 +1,124 @@
+{
+  "network-configs": {
+    "network-1": {
+      "version": "1.0",
+      "clients": {
+        "client-blab": {
+          "tlsEnable": false,
+          "organization": "peer-org1",
+          "channel": "channel1",
+          "credentialStore": {
+            "path": "./tmp/credentialStore_Org1/credential",
+            "cryptoStore": {
+              "path": "./tmp/credentialStore_Org1/crypto"
+            }
+          }
+        }
+      },
+      "channels": {
+        "channel1": {
+          "orderers": [
+            "orderer1-15-164-36-2.org1.example.com"
+          ],
+          "peers": {
+            "peer1-13-125-61-129.peer-org1.example.com": {
+                "endorsingPeer": true,
+                "chaincodeQuery": true,
+                "ledgerQuery": true,
+                "eventSource": true
+            }
+          },
+          "connection": {
+            "timeout": {
+              "peer": {
+                "endorser": "6000",
+                "eventHub": "6000",
+                "eventReg": "6000"
+              }
+            }
+          }
+        }
+      },
+      "organizations": {
+        "peer-org1": {
+          "mspid": "Peer-org1MSP",
+          "fullpath": false,
+          "peers": [
+            "peer1-13-125-61-129.peer-org1.example.com"
+          ],
+          "certificateAuthorities": [
+            "ca-peer-org1"
+          ],
+          "adminPrivateKey": {
+            "path": "/Users/kimcy/Documents/z-bass-auth/peer-org1-enterprise-certificate/admincerts"
+          },
+          "signedCert": {
+            "path": "/Users/kimcy/Documents/z-bass-auth/peer-org1-enterprise-certificate/keystore"
+          }
+        },
+        "org1": {
+          "mspid": "Org1MSP",
+          "adminPrivateKey": {
+            "path":
+              "/Users/kimcy/Documents/z-bass-auth/org1-enterprise-certificate/admincerts"
+          }
+        }
+      },
+      "peers": {
+        "peer1-13-125-61-129.peer-org1.example.com": {
+          "tlsCACerts": {
+            "path":"/Users/kimcy/Documents/z-bass-auth/peer-tls.pem"
+          },
+          "url": "grpc://13.125.61.129:7051",
+          "eventUrl": "grpc://13.125.61.129:7053",
+          "grpcOptions": {
+            "ssl-target-name-override": "peer1-13-125-61-129.peer-org1.example.com"
+          }
+        }
+      },
+      "orderers": {
+        "orderer1-15-164-36-2.org1.example.com": {
+          "tlsCACerts": {
+            "path":"/Users/kimcy/Documents/z-bass-auth/org1-tlscert.pem"
+          },
+          "url": "grpc://15.164.36.2:7050",
+          "grpcOptions": {
+            "ssl-target-name-override": "orderer1-15-164-36-2.org1.example.com"
+          }
+        }
+      
+      },
+      "certificateAuthorities": {
+          "ca-peer-org1": {
+              "url": "http://13.125.75.24:7054",
+              "httpOptions": {
+                  "verify": false
+              },
+              "registrar": [
+                  {
+                      "enrollId": "admin",
+                      "enrollSecret": "adminpw"
+                  }
+              ],
+              "caName": "ca-peer-org1"
+          },
+          "ca-org1": {
+              "url": "http://15.164.36.2:7054",
+              "httpOptions": {
+                  "verify": false
+              },
+              "registrar": [
+                  {
+                      "enrollId": "admin",
+                      "enrollSecret": "adminpw"
+                  }
+              ],
+              "caName": "ca-org1"
+          }
+      }
+
+    }
+  },
+  "configtxgenToolPath": "fabric-path/fabric-samples/bin",
+  "license": "Apache-2.0"
+}
